@@ -4,6 +4,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Tuple
 
+from settings import AUDIO_OUTPUT_DIR_PATH, LOG_FILE_PATH
+
 from radiko.recorder import RadikoRecorder
 
 
@@ -17,7 +19,7 @@ class App:
         logging.debug(f"STATION:{station}\tPROGRAM:{program}\tRECORD_TIME:{record_time}")
 
     def _get_output_file_path(self) -> Path:
-        dir_path = Path("./work/output")  # env ファイルで指定する
+        dir_path = Path(AUDIO_OUTPUT_DIR_PATH)
         dir_path.mkdir(parents=True, exist_ok=True)
 
         current_time = datetime.now(tz=self.JST).strftime("%Y%m%d-%H%M")
@@ -44,8 +46,7 @@ def _parse_params() -> Tuple[str, str, int]:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="./work/log/app.log", level=logging.DEBUG, format="[%(levelname)s]\t%(message)s")
-    # TODO env ファイルで指定する
+    logging.basicConfig(filename=LOG_FILE_PATH, level=logging.DEBUG, format="[%(levelname)s]\t%(message)s")
 
     station, program, record_time = _parse_params()
     app = App(station, program, record_time)
