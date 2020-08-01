@@ -1,9 +1,9 @@
 import base64
 import logging
-import os
 
 import requests
 from requests.exceptions import Timeout
+from settings import RADIKO_AREA_ID
 
 
 class Authorization(object):
@@ -27,7 +27,7 @@ class Authorization(object):
             "X-Radiko-Device": "pc",
             "X-Radiko-AuthToken": "",
             "X-Radiko-Partialkey": "",
-            "X-Radiko-AreaId": os.getenv("RADIKO_AREA_ID"),
+            "X-Radiko-AreaId": RADIKO_AREA_ID,
         }
         self._auth()
 

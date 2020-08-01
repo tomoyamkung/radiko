@@ -19,9 +19,6 @@ ENV HOME /home/${USER}
 ENV WORK_PRODUCT_HOME ${HOME}/radiko
 ENV SHELL /bin/bash
 
-ENV RADIKO_AREA_ID=JP14
-# 14 -> Kanagawa
-
 #
 RUN echo 'root:root' | chpasswd
 RUN adduser -S dev \

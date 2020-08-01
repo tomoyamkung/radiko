@@ -10,6 +10,10 @@ isort = {extras = ["pyproject"],version = "==5.1.4"}
 mypy = "==0.770"
 
 [packages]
+ffmpeg-python = "==0.2.0"
+m3u8 = "==0.5.2"
+python-dotenv = "==0.14.0"
+requests = "==2.22.0"
 
 [requires]
 python_version = "3.8"
