@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "==19.10b0"
+flake8 = "==3.8.3"
+isort = {extras = ["pyproject"],version = "==5.1.4"}
+mypy = "==0.770"
+
+[packages]
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+black = "black ."
+flake8 = "flake8 ."
+isort = "isort ."
+mypy = "mypy ."

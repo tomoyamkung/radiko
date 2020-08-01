@@ -1,0 +1,10 @@
+version: '3'
+services:
+
+  core:
+    build: .
+    tty: true
+    volumes:
+      - $PWD:/home/dev/radiko
+      - $PWD/work/log:/home/dev/radiko/work/log
+      - $PWD/work/output:/home/dev/radiko/work/output
