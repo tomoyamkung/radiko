@@ -1,17 +1,16 @@
 import logging
 import os
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 import ffmpeg
 import m3u8
 import requests
+from const import Const
 
 from radiko.authorization import Authorization
-
-JST = timezone(timedelta(hours=+9), "JST")
 
 
 class RadikoRecorder:
@@ -66,7 +65,7 @@ class RadikoRecorder:
     def _get_media_url(self, media_playlist_url) -> List[Tuple[str, str]]:
         """音声ファイルのURLをmedia playlistから取得する
         """
-        query_time = int(datetime.now(tz=JST).timestamp() * 100)
+        query_time = int(datetime.now(tz=Const.JST).timestamp() * 100)
         logging.debug(f"aac url:{media_playlist_url}&_={query_time}")
 
         response = requests.get(url=f"{media_playlist_url}&_={query_time}", headers=self.headers)

@@ -1,17 +1,16 @@
 import argparse
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Tuple
 
+from const import Const
 from settings import AUDIO_OUTPUT_DIR_PATH, LOG_FILE_PATH
 
 from radiko.recorder import RadikoRecorder
 
 
 class App:
-    JST = timezone(timedelta(hours=+9), "JST")
-
     def __init__(self, station: str, program: str, record_time: int) -> None:
         self.station = station
         self.program = program
@@ -22,7 +21,7 @@ class App:
         dir_path = Path(AUDIO_OUTPUT_DIR_PATH)
         dir_path.mkdir(parents=True, exist_ok=True)
 
-        current_time = datetime.now(tz=self.JST).strftime("%Y%m%d-%H%M")
+        current_time = datetime.now(tz=Const.JST).strftime("%Y%m%d-%H%M")
         filename = f"{self.station}_{self.program}_{current_time}.aac"
 
         return dir_path.joinpath(filename).resolve()
