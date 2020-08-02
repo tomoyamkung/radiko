@@ -5,12 +5,13 @@ from pathlib import Path
 from typing import Tuple
 
 from const import Const
+from directory_mixin import DirectoryMixin
 from settings import AUDIO_OUTPUT_DIR_PATH, LOG_FILE_PATH
 
 from radiko.recorder import RadikoRecorder
 
 
-class App:
+class App(DirectoryMixin):
     def __init__(self, station: str, program: str, record_time: int) -> None:
         self.station = station
         self.program = program
@@ -18,8 +19,7 @@ class App:
         logging.debug(f"STATION:{station}\tPROGRAM:{program}\tRECORD_TIME:{record_time}")
 
     def _get_output_file_path(self) -> Path:
-        dir_path = Path(AUDIO_OUTPUT_DIR_PATH)
-        dir_path.mkdir(parents=True, exist_ok=True)
+        dir_path = self.make_directory(AUDIO_OUTPUT_DIR_PATH)
 
         current_time = datetime.now(tz=Const.JST).strftime("%Y%m%d-%H%M")
         filename = f"{self.station}_{self.program}_{current_time}.aac"
