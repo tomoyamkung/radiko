@@ -9,11 +9,13 @@ import ffmpeg
 import m3u8
 import requests
 from const import Const
+from directory_mixin import DirectoryMixin
+from settings import AUDIO_TEMPORARY_DIR_PATH
 
 from radiko.authorization import Authorization
 
 
-class RadikoRecorder:
+class RadikoRecorder(DirectoryMixin):
     MASTER_PLAYLIST_BASE_URL = "https://rpaa.smartstream.ne.jp/so/playlist.m3u8"
     DUMMY_LSID = "11111111111111111111111111111111111111"  # Radiko APIの仕様で38桁の文字列が必要。
 
@@ -84,7 +86,7 @@ class RadikoRecorder:
         logging.debug(f"audio headers: {audio_headers}")
         return audio_headers
 
-    def _record(self) -> None:
+    def _record(self, temp_dir_path: Path) -> None:
         logging.info(f"START_RECORD\tOUTPUT_FILE_PATH:{self.output_file_path}")
 
         media_playlist_url = self._get_media_playlist_url()
@@ -104,10 +106,9 @@ class RadikoRecorder:
                 if dt in recorded:
                     continue
 
-                if not os.path.isdir("./tmp"):
-                    os.mkdir("./tmp")
+                filename = temp_dir_path.joinpath(f"{dt}.aac")
                 try:
-                    ffmpeg.input(filename=url, f="aac", headers=headers).output(filename=f"./tmp/{dt}.aac").run(
+                    ffmpeg.input(filename=url, f="aac", headers=headers).output(filename=filename).run(
                         capture_stdout=True
                     )
                 except Exception as e:
@@ -120,10 +121,11 @@ class RadikoRecorder:
         return recorded
 
     def execute(self):
-        recorded = self._record()
+        temp_dir_path: Path = self.make_directory(AUDIO_TEMPORARY_DIR_PATH)
+        recorded = self._record(temp_dir_path)
 
         sorted_recorded = sorted(recorded)
-        files = [f"./tmp/{e}.aac" for e in sorted_recorded]
+        files = [temp_dir_path.joinpath(f"{e}.aac") for e in sorted_recorded]
         logging.debug(files)
         try:
             streams = [ffmpeg.input(filename=f) for f in files]
@@ -133,5 +135,6 @@ class RadikoRecorder:
         except Exception as e:
             logging.warning("failed in run ffmpeg concat")
             logging.warning(e)
-        for f in files:
-            os.remove(f)
+        finally:
+            for f in files:
+                os.remove(f)
