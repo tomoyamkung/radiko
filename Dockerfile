@@ -30,5 +30,6 @@ USER ${USER}
 WORKDIR ${WORK_PRODUCT_HOME}
 
 #
+COPY ./product ${WORK_PRODUCT_HOME}
 COPY ./requirements.txt ${WORK_PRODUCT_HOME}
 RUN pip install -r requirements.txt
