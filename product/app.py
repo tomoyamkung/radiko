@@ -6,7 +6,7 @@ from typing import Tuple
 
 from const import Const
 from directory_mixin import DirectoryMixin
-from settings import AUDIO_OUTPUT_DIR_PATH, LOG_FILE_PATH
+from settings import AUDIO_OUTPUT_DIR_PATH
 
 from radiko.recorder import RadikoRecorder
 
@@ -44,7 +44,7 @@ def _parse_params() -> Tuple[str, str, int]:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename=LOG_FILE_PATH, level=logging.DEBUG, format="[%(levelname)s]\t%(message)s")
+    logging.basicConfig(level=logging.DEBUG, format="[%(levelname)s]\t%(message)s")
 
     station, program, record_time = _parse_params()
     app = App(station, program, record_time)
