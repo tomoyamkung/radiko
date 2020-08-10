@@ -24,8 +24,8 @@ class Downloader:
                 time.sleep(3.0)
                 continue
 
-            for dt, url in url_list:
-                filepath = temp_dir_path.joinpath(f"{dt}.aac")
+            for program_date_time, url in url_list:
+                filepath = temp_dir_path.joinpath(f"{program_date_time}.aac")
                 if filepath in filepaths:
                     continue
 
