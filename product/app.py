@@ -16,7 +16,6 @@ class App(DirectoryMixin):
         self.station = station
         self.program = program
         self.record_time = record_time
-        logging.debug(f"STATION:{station}\tPROGRAM:{program}\tRECORD_TIME:{record_time}")
 
     def _get_output_file_path(self) -> Path:
         dir_path = self.make_directory(AUDIO_OUTPUT_DIR_PATH)
@@ -30,7 +29,7 @@ class App(DirectoryMixin):
         file_path: Path = self._get_output_file_path()
         logging.debug(f"OUTPUT_FILE_PATH:{file_path}")
 
-        recorder = RadikoRecorder(self.station, self.program, self.record_time, file_path)
+        recorder = RadikoRecorder(self.station, self.record_time, file_path)
         recorder.execute()
 
 
