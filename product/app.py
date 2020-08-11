@@ -6,7 +6,7 @@ from typing import Tuple
 
 from const import Const
 from directory_mixin import DirectoryMixin
-from settings import AUDIO_OUTPUT_DIR_PATH
+from settings import AUDIO_OUTPUT_DIR_PATH, S3_BUCKET
 
 from radiko.recorder import RadikoRecorder
 
@@ -29,7 +29,7 @@ class App(DirectoryMixin):
         file_path: Path = self._get_output_file_path()
         logging.debug(f"OUTPUT_FILE_PATH:{file_path}")
 
-        recorder = RadikoRecorder(self.station, self.record_time, file_path)
+        recorder = RadikoRecorder(self.station, self.record_time, file_path, S3_BUCKET)
         recorder.execute()
 
 
