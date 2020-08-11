@@ -11,7 +11,7 @@ RUN apk update && \
         gcc \
         g++ \
         ffmpeg
-RUN pip install --upgrade pip
+RUN pip install --force-reinstall --upgrade pip
 
 #
 ENV USER dev
